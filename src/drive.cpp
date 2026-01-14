@@ -4,7 +4,7 @@ void updateDrive()
 {
     // Reinitialize variables each loop
     int outputLeft = 0;
-    int outputLeft = 0;
+    int outputRight = 0;
     // Store joystick values to avoid streneuously calling this stupid library (these three alone should take more than 100ms alone)
     int joyLY = ps4.Stick(LY) - 128; // set center to 0
     int joyRY = ps4.Stick(RY) - 128;
@@ -16,20 +16,20 @@ void updateDrive()
 
     // Get joy values and apply deadzone
     int outputLeft = (joyLY * (joyLY > DEADZONE));
-    int outputLeft = (joyRY * (joyRY > DEADZONE));
+    int outputRight = (joyRY * (joyRY > DEADZONE));
 
     // Input logic
 
     // Brake on release logic
-    if (abs(outputLeft) + abs(outputLeft))
+    if (abs(outputLeft) + abs(outputRight))
     {
         if (abs(outputLeft) > 0)
         {
             outputLeft = map(outputLeft, joyMin, joyMax, -MOTOR_MAX_OUTPUT, MOTOR_MAX_OUTPUT);
         }
-        if (abs(outputLeft) > 0)
+        if (abs(outputRight) > 0)
         {
-            outputLeft = map(outputLeft, joyMin, joyMax, -MOTOR_MAX_OUTPUT, MOTOR_MAX_OUTPUT);
+            outputRight = map(outputRight, joyMin, joyMax, -MOTOR_MAX_OUTPUT, MOTOR_MAX_OUTPUT);
         }
     }
     else
@@ -38,23 +38,25 @@ void updateDrive()
         // brake == 125, coast == 0
         int brakePower = BRAKE_ON_RELEASE * 125;
         outputLeft = brakePower;
-        outputLeft = brakePower;
+        outputRight = brakePower;
     }
 
     // Apply inversion settings
     outputLeft = outputLeft * INVERT_LEFT;
-    outputLeft = outputLeft * INVERT_RIGHT;
+    outputRight = outputRight * INVERT_RIGHT;
 
-    Serial.print("Joy: ");
+    Serial.print("JoyLY: ");
     Serial.print(joyLY);
     Serial.print("\t");
-    Serial.print(outputLeft);
+    Serial.print("JoyRY: ");
+    Serial.print(joyRY);
     Serial.print("\t");
     Serial.print(outputLeft);
+    Serial.print("\t");
+    Serial.print(outputRight);
     Serial.println();
 
     // Set motor powers
-    // exc.setMotorPower(MOTOR_FRONT_EXPANSION, MOTOR_FRONT_PORT, powerFront);
     // exc.setMotorPower(MOTOR_LEFT_EXPANSION, MOTOR_LEFT_PORT, outputLeft);
-    // exc.setMotorPower(MOTOR_RIGHT_EXPANSION, MOTOR_RIGHT_PORT, outputLeft);
+    // exc.setMotorPower(MOTOR_RIGHT_EXPANSION, MOTOR_RIGHT_PORT, outputRight);
 }
