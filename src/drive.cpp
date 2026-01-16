@@ -15,13 +15,13 @@ void updateDrive()
     // by subtracting 128, we get a range of -128 to 127, where the centered stick is now 0
 
     // Get joy values and apply deadzone
-    int outputLeft = (joyLY * (joyLY > DEADZONE));
-    int outputRight = (joyRY * (joyRY > DEADZONE));
+    outputLeft = (joyLY * (abs(joyLY) > DEADZONE));
+    outputRight = (joyRY * (abs(joyRY) > DEADZONE));
 
     // Input logic
 
     // Brake on release logic
-    if (abs(outputLeft) + abs(outputRight))
+    if ((abs(outputLeft) + abs(outputRight)) > 0)
     {
         if (abs(outputLeft) > 0)
         {
@@ -57,6 +57,6 @@ void updateDrive()
     Serial.println();
 
     // Set motor powers
-    // exc.setMotorPower(MOTOR_LEFT_EXPANSION, MOTOR_LEFT_PORT, outputLeft);
-    // exc.setMotorPower(MOTOR_RIGHT_EXPANSION, MOTOR_RIGHT_PORT, outputRight);
+    exc.setMotorPower(MOTOR_LEFT_EXPANSION, MOTOR_LEFT_PORT, outputLeft);
+    exc.setMotorPower(MOTOR_RIGHT_EXPANSION, MOTOR_RIGHT_PORT, outputRight);
 }
