@@ -5,7 +5,7 @@ void updateDrive()
     // Reinitialize variables each loop
     int outputLeft = 0;
     int outputRight = 0;
-    // Store joystick values to avoid streneuously calling this stupid library (these three alone should take more than 100ms alone)
+    // Store joystick values to avoid streneuously polling the motor expansions
     int joyLY = ps4.Stick(LY) - 128; // set center to 0
     int joyRY = ps4.Stick(RY) - 128;
     constexpr int joyMin = -128;
