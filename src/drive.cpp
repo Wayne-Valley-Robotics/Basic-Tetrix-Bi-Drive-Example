@@ -12,7 +12,7 @@ void updateDrive()
     constexpr int joyMax = 127;
 
     // ps4.Stick(); returns 0 to 255
-    // by subtracting 128, we get a range of -128 to 127, where the centered stick is now 0
+    // By subtracting 128, we get a range of -128 to 127, where the centered stick is now close to 0.
 
     // Get joy values and apply deadzone
     outputLeft = (joyLY * (abs(joyLY) > DEADZONE));
@@ -34,7 +34,7 @@ void updateDrive()
     }
     else
     {
-        // Continuation of brake logic, we already know we need to brake
+        // Continuation of brake logic, at this point we already know we need to brake
         // brake == 125, coast == 0
         int brakePower = BRAKE_ON_RELEASE * 125;
         outputLeft = brakePower;
